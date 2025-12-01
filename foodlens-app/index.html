@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FoodLens</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff8a00, #e52e71);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      animation: fadeIn 1s ease-in;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.5em;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 2em;
+      max-width: 500px;
+    }
+
+    .try-button {
+      background: #ffffff;
+      color: #e52e71;
+      border: none;
+      padding: 1em 2em;
+      font-size: 1.2em;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .try-button:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🍽️ FoodLens</h1>
+  <p>Your smart food recognition app. Snap a photo, get instant nutrition insights, and eat smarter.</p>
+  
+  <!-- Button linking to capture.html -->
+  <a href="capture.html" class="try-button">Try Now</a>
+</body>
+</html>

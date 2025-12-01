@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Diet Tip</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eafaf1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Creates a white box */
+    .tip-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    /* Controls the size of the tip text */
+    .tip-box h1 {
+      font-size: 24px;
+      color: #2e7d32;
+    }
+
+    .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .button: hover {
+      background-color: #256c2b;
+    }
+  </style>
+</head>
+<body>
+  <div class="tip-box">
+    <h1 id="tip-text">Loading...</h1>
+    <button class="button" onclick="goBack()">← Back</button>
+  </div>
+
+  <script>
+    // List of Diet Tips
+    const tips = [
+      "💡 Drink more water 💧",
+      "💡 Eat more vegetables 🥦",
+      "💡 Avoid processed sugar 🍬",
+      "💡 Practice portion control 🍽️",
+      "💡 Choose whole grains 🌾",
+      "💡 Don’t skip breakfast 🥣",
+      "💡 Eat slowly and mindfully 🧘‍♂️",
+      "💡 Add fruits to your meals 🍎",
+      "💡 Limit fried foods 🍟",
+      "💡 Include lean protein 🥚"
+    ];
+
+    // Select a random tip
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+
+    // Display in the h1 tag
+    document.getElementById("tip-text").textContent = randomTip;
+
+    function goBack() {
+      window.location.href = "analysis.html";
+    }
+  </script>
+</body>
+</html>
+

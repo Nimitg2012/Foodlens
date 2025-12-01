@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Capture or Upload - FoodLens</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f8f8;
+      color: #333333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+      padding-top: 2em;
+    }
+
+    h2 {
+      font-size: 2em;
+      margin-bottom: 1em;
+      color: #e52e71;
+    }
+
+    .button {
+      background: #e52e71;
+      color: #ffffff;
+      border: none;
+      padding: 1em 2em;
+      font-size: 1.1em;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin: 0.5em;
+    }
+
+    .button:hover {
+      background: #c41d5f;
+      transform: scale(1.05);
+    }
+
+    video, img {
+      margin-top: 1em;
+      max-width: 90%;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    #canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>📷 Capture or Upload Your Food</h2>
+
+  <!-- Buttons -->
+  <button class="button" onclick="startCamera()">📷 Take Photo</button>
+  <label class="button" for="fileInput">📁 Upload Photo</label>
+
+  <!-- Video for live camera -->
+  <video id="video" autoplay playsinline style="display:none;"></video>
+  <br/>
+  <button class="button" id="captureButton" style="display:none;" onclick="capturePhoto()">Capture Image</button>
+
+  <!-- Hidden file input -->
+  <input type="file" accept="image/*" id="fileInput">
+
+  <!-- Image preview -->
+  <img id="preview" alt="Your photo" />
+
+  <!-- Hidden canvas -->
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const preview = document.getElementById('preview');
+    const captureButton = document.getElementById('captureButton');
+    const fileInput = document.getElementById('fileInput');
+    let stream;
+
+    // Start live camera
+    function startCamera() {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(s => {
+          stream = s;
+          video.srcObject = s;
+          video.style.display = 'block';
+          captureButton.style.display = 'inline-block';
+          preview.style.display = 'none';
+        })
+        .catch(err => {
+          alert('Error accessing camera: ' + err);
+        });
+    }
+
+    // Capture photo from video
+    function capturePhoto() {
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataURL = canvas.toDataURL('image/png');
+      preview.src = dataURL;
+      preview.style.display = 'block';
+
+      // Stop camera stream
+      stream.getTracks().forEach(track => track.stop());
+      video.style.display = 'none';
+      captureButton.style.display = 'none';
+
+      // Show confirm button
+      showConfirmButton(dataURL);
+    }
+
+    // Handle file upload
+    fileInput.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+          showConfirmButton(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Show confirm button
+    function showConfirmButton(imageData) {
+      let btn = document.getElementById('confirmBtn');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'confirmBtn';
+        btn.innerText = '✅ Confirm & Analyze';
+        btn.className = 'button';
+        document.body.appendChild(btn);
+      }
+      btn.onclick = () => {
+        // Save image data in localStorage and redirect
+        localStorage.setItem('capturedImage', imageData);
+        window.location.href = 'analysis.html';
+      };
+    }
+  </script>
+</body>
+</html>
